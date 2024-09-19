@@ -28,7 +28,7 @@ module add_header_post # (parameter DW = 128)
     input      [(DW/8)-1:0] axis_data_tkeep,
     input                   axis_data_tlast,
     input                   axis_data_tvalid,
-    output reg              axis_data_tready,
+    output                  axis_data_tready,
 
 
     // The input stream that carries packet lengths
@@ -85,6 +85,13 @@ end
 //
 // This is a textbook example of a Mealy state machine
 //=============================================================================
+    // The input stream that carries packet data
+    wire      [DW-1:0]     fifo_out_axis_data_tdata;
+    wire      [(DW/8)-1:0] fifo_out_axis_data_tkeep;
+    wire                   fifo_out_axis_data_tlast;
+    wire                   fifo_out_axis_data_tvalid;
+    reg                    fifo_out_axis_data_tready;
+//-----------------------------------------------------------------------------
 always @* begin
     
     if (resetn == 0) begin
@@ -92,7 +99,7 @@ always @* begin
         axis_out_tkeep   = 0;
         axis_out_tlast   = 0;
         axis_out_tvalid  = 0;
-        axis_data_tready = 0;
+        fifo_out_axis_data_tready = 0;
         axis_plen_tready = 0;
     end
     
@@ -105,24 +112,76 @@ always @* begin
             axis_out_tkeep   = -1;
             axis_out_tlast   = 0;
             axis_out_tvalid  = axis_plen_tvalid;
-            axis_data_tready = 0;
+            fifo_out_axis_data_tready = 0;
             axis_plen_tready = axis_out_tready;
         end
 
     // In this state, axis_out is fed from axis_data
     FSM_WRITE_PACKET:
         begin
-            axis_out_tdata   = axis_data_tdata;
-            axis_out_tkeep   = axis_data_tkeep;
-            axis_out_tlast   = axis_data_tlast;
-            axis_out_tvalid  = axis_data_tvalid;
-            axis_data_tready = axis_out_tready;
+            axis_out_tdata   = fifo_out_axis_data_tdata;
+            axis_out_tkeep   = fifo_out_axis_data_tkeep;
+            axis_out_tlast   = fifo_out_axis_data_tlast;
+            axis_out_tvalid  = fifo_out_axis_data_tvalid;
+            fifo_out_axis_data_tready = axis_out_tready;
             axis_plen_tready = 0;
         end
 
     endcase
 
 end
-//=============================================================================
 
+   xpm_fifo_axis #(
+      .TDATA_WIDTH(DW),               // DECIMAL
+      .FIFO_DEPTH(2048),              // DECIMAL
+      .CDC_SYNC_STAGES(3),            // DECIMAL
+      .CLOCKING_MODE("common_clock"), // String
+      .FIFO_MEMORY_TYPE("auto"),      // String
+      .PACKET_FIFO("false")           // String
+   )
+   data_fifo (
+        // Clock and reset
+   .s_aclk   (clk   ),                       
+   .m_aclk   (clk   ),             
+   .s_aresetn(resetn),
+
+    // The input of this FIFO is the AXIS_RDMX interface
+   .s_axis_tdata (axis_data_tdata),
+   .s_axis_tkeep (axis_data_tkeep),
+   .s_axis_tlast (axis_data_tlast),
+   .s_axis_tvalid(axis_data_tvalid),
+   .s_axis_tready(axis_data_tready),
+
+    // The output of this FIFO drives the "W" channel of the M_AXI interface
+   .m_axis_tdata (fifo_out_axis_data_tdata),     
+   .m_axis_tkeep (fifo_out_axis_data_tkeep),
+   .m_axis_tvalid(fifo_out_axis_data_tvalid),       
+   .m_axis_tlast (fifo_out_axis_data_tlast),         
+   .m_axis_tready(fifo_out_axis_data_tready),
+
+    // Unused input stream signals
+   .s_axis_tdest(),
+   .s_axis_tid  (),
+   .s_axis_tstrb(),
+   .s_axis_tuser(),
+
+    // Unused output stream signals
+   .m_axis_tdest(),             
+   .m_axis_tid  (),               
+   .m_axis_tstrb(), 
+   .m_axis_tuser(),         
+
+    // Other unused signals
+   .almost_empty_axis(),
+   .almost_full_axis(), 
+   .dbiterr_axis(),          
+   .prog_empty_axis(), 
+   .prog_full_axis(), 
+   .rd_data_count_axis(), 
+   .sbiterr_axis(),
+   .wr_data_count_axis(),
+   .injectdbiterr_axis(),
+   .injectsbiterr_axis()
+   );
+				
 endmodule

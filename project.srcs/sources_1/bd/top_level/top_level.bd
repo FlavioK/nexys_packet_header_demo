@@ -20,7 +20,6 @@
       "data_consumer": "",
       "system_ila": "",
       "add_header_pre": "",
-      "data_fifo": "",
       "plen_fifo": "",
       "add_header_post": ""
     },
@@ -445,13 +444,13 @@
         "inst_hier_path": "system_ila",
         "parameters": {
           "C_MON_TYPE": {
-            "value": "INTERFACE"
+            "value": "MIX"
           },
           "C_NUM_MONITOR_SLOTS": {
-            "value": "1"
+            "value": "2"
           },
           "C_SLOT": {
-            "value": "0"
+            "value": "1"
           },
           "C_SLOT_0_INTF_TYPE": {
             "value": "xilinx.com:interface:axis_rtl:1.0"
@@ -465,6 +464,11 @@
         },
         "interface_ports": {
           "SLOT_0_AXIS": {
+            "mode": "Monitor",
+            "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0"
+          },
+          "SLOT_1_AXIS": {
             "mode": "Monitor",
             "vlnv_bus_definition": "xilinx.com:interface:axis:1.0",
             "vlnv": "xilinx.com:interface:axis_rtl:1.0"
@@ -740,17 +744,6 @@
                 "value_src": "constant"
               }
             }
-          }
-        }
-      },
-      "data_fifo": {
-        "vlnv": "xilinx.com:ip:axis_data_fifo:2.0",
-        "xci_name": "top_level_axis_data_fifo_0_0",
-        "xci_path": "ip/top_level_axis_data_fifo_0_0/top_level_axis_data_fifo_0_0.xci",
-        "inst_hier_path": "data_fifo",
-        "parameters": {
-          "FIFO_DEPTH": {
-            "value": "2048"
           }
         }
       },
@@ -1048,8 +1041,8 @@
       },
       "add_header_pre_axis_out": {
         "interface_ports": [
-          "data_fifo/S_AXIS",
-          "add_header_pre/axis_out"
+          "add_header_pre/axis_out",
+          "add_header_post/axis_data"
         ]
       },
       "add_header_pre_axis_plen": {
@@ -1058,16 +1051,11 @@
           "add_header_pre/axis_plen"
         ]
       },
-      "data_fifo_M_AXIS": {
-        "interface_ports": [
-          "add_header_post/axis_data",
-          "data_fifo/M_AXIS"
-        ]
-      },
       "packet_gen_axis_out1": {
         "interface_ports": [
           "packet_gen/axis_out",
-          "add_header_pre/axis_in"
+          "add_header_pre/axis_in",
+          "system_ila/SLOT_1_AXIS"
         ]
       },
       "plen_fifo_M_AXIS": {
@@ -1087,7 +1075,8 @@
       "button_Q": {
         "ports": [
           "button/Q",
-          "packet_gen/start"
+          "packet_gen/start",
+          "system_ila/probe0"
         ]
       },
       "clk_in1_0_1": {
@@ -1110,7 +1099,6 @@
           "data_consumer/clk",
           "system_ila/clk",
           "add_header_pre/clk",
-          "data_fifo/s_axis_aclk",
           "plen_fifo/s_axis_aclk",
           "add_header_post/clk"
         ]
@@ -1121,7 +1109,6 @@
           "packet_gen/resetn",
           "system_ila/resetn",
           "add_header_pre/resetn",
-          "data_fifo/s_axis_aresetn",
           "plen_fifo/s_axis_aresetn",
           "add_header_post/resetn"
         ]

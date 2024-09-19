@@ -1,0 +1,15 @@
+*
+!.gitignore
+!project.gen
+!project.hw
+!project.ip_user_files
+!project.sim
+!project.srcs
+!project.xpr
+!src
+!src/**
+!xdc
+!scripts
+!grab.sh
+!README.md
+!push

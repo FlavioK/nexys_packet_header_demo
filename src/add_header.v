@@ -4,13 +4,13 @@
 //
 //   Date     Who   Ver  Changes
 //=============================================================================
-// 20-Sep-24  FLSO    1  Initial version
+// 20-Sep-24  FLSO    1  Initial version - based on add_header_pre and
+//                       add_header_post
 //=============================================================================
-
 /*
 
     This module reads in a data-stream, and computes the length of the incoming
-    packages.
+    packages differentiated by the TLAST signal.
 
     On the output stream, this module writes out the packets that were streamed
     in from the input, with each packet being preceded by a 1-data-cycle header
@@ -65,7 +65,11 @@ endfunction
     wire                   fifo_out_data_tvalid;
     reg                    fifo_out_data_tready;
 
-    // To feed the FIFO that carries packet lengths
+    // To feed the FIFO that carries packet length. 
+    // We do not use the tready signal. Both buffers have the same size and plen
+    // will contain only one cycle worth of data per data package stored in the
+    // data fifo. So if the data fifo is full, the plen fifo will still have
+    // plenty of space.
     wire      [DW-1:0]     fifo_in_plen_tdata;
     wire                   fifo_in_plen_tvalid;
 
@@ -74,6 +78,7 @@ endfunction
     wire                   fifo_out_plen_tvalid;
     reg                    fifo_out_plen_tready;
 //=============================================================================
+
 
 
 //=============================================================================
@@ -288,9 +293,10 @@ plen_fifo (
 .s_axis_tid  (),
 .s_axis_tstrb(),
 .s_axis_tuser(),
-// We do not use this signal. Both buffers have the same size and plen will
-// contain only one cycle of data of data package stored in the data fifo. So
-// if the data fifo is full, the plen fifo will still have plenty of space.
+// We do not use the tready signal. Both buffers have the same size and plen
+// will contain only one cycle worth of data per data package stored in the
+// data fifo. So if the data fifo is full, the plen fifo will still have
+// plenty of space.
 .s_axis_tready(),
 
 // Unused output stream signals

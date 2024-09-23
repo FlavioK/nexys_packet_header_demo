@@ -125,17 +125,8 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_data_consumer_0_0/top_level_data_consumer_0_0.xci">
-          <Proxy FileSetName="top_level_data_consumer_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_button_0_0/top_level_button_0_0.xci">
-          <Proxy FileSetName="top_level_button_0_0"/>
-        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_clk_wiz_0_0/top_level_clk_wiz_0_0.xci">
           <Proxy FileSetName="top_level_clk_wiz_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_add_header_0_0/top_level_add_header_0_0.xci">
-          <Proxy FileSetName="top_level_add_header_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_proc_sys_reset_0_0/top_level_proc_sys_reset_0_0.xci">
           <Proxy FileSetName="top_level_proc_sys_reset_0_0"/>
@@ -143,25 +134,18 @@
         <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_packet_gen_0_0/top_level_packet_gen_0_0.xci">
           <Proxy FileSetName="top_level_packet_gen_0_0"/>
         </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_button_0_0/top_level_button_0_0.xci">
+          <Proxy FileSetName="top_level_button_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_data_consumer_0_0/top_level_data_consumer_0_0.xci">
+          <Proxy FileSetName="top_level_data_consumer_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="top_level.bd" FileRelPathName="ip/top_level_add_header_0_0/top_level_add_header_0_0.xci">
+          <Proxy FileSetName="top_level_add_header_0_0"/>
+        </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/top_level/hdl/top_level_wrapper.v">
         <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/src/add_header_post.v">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/src/add_header_pre.v">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>

@@ -19,7 +19,7 @@
       "button": "",
       "data_consumer": "",
       "system_ila": "",
-      "add_header_0": ""
+      "add_header": ""
     },
     "ports": {
       "CLK100MHZ": {
@@ -473,11 +473,11 @@
           }
         }
       },
-      "add_header_0": {
+      "add_header": {
         "vlnv": "xilinx.com:module_ref:add_header:1.0",
         "xci_name": "top_level_add_header_0_0",
         "xci_path": "ip/top_level_add_header_0_0/top_level_add_header_0_0.xci",
-        "inst_hier_path": "add_header_0",
+        "inst_hier_path": "add_header",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "add_header",
@@ -682,7 +682,7 @@
     "interface_nets": {
       "add_header_0_axis_out": {
         "interface_ports": [
-          "add_header_0/axis_out",
+          "add_header/axis_out",
           "data_consumer/AXIS_RX",
           "system_ila/SLOT_1_AXIS"
         ]
@@ -690,7 +690,7 @@
       "packet_gen_axis_out": {
         "interface_ports": [
           "packet_gen/axis_out",
-          "add_header_0/axis_data",
+          "add_header/axis_data",
           "system_ila/SLOT_0_AXIS"
         ]
       }
@@ -728,7 +728,7 @@
           "button/CLK",
           "data_consumer/clk",
           "system_ila/clk",
-          "add_header_0/clk"
+          "add_header/clk"
         ]
       },
       "source_50mhz_peripheral_aresetn": {
@@ -736,7 +736,7 @@
           "source_50mhz/peripheral_aresetn",
           "packet_gen/resetn",
           "system_ila/resetn",
-          "add_header_0/resetn"
+          "add_header/resetn"
         ]
       }
     }

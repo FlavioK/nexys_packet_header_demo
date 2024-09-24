@@ -14,11 +14,11 @@ preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x -313 -y 260 -defaultsOSRD
 preplace port port-id_CPU_RESETN -pg 1 -lvl 0 -x -313 -y 280 -defaultsOSRD
 preplace port port-id_BTNU -pg 1 -lvl 0 -x -313 -y 360 -defaultsOSRD
 preplace inst source_50mhz -pg 1 -lvl 1 -x -133 -y 260 -defaultsOSRD -pinDir CLK100MHZ left -pinY CLK100MHZ 0L -pinDir CPU_RESETN left -pinY CPU_RESETN 20L -pinBusDir peripheral_aresetn right -pinBusY peripheral_aresetn 0R -pinDir clk_50mhz right -pinY clk_50mhz 20R
-preplace inst packet_gen -pg 1 -lvl 3 -x 390 -y 260 -swap {0 1 2 3 4 5 7 6 8} -defaultsOSRD -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 0L -pinDir start left -pinY start 40L
 preplace inst button -pg 1 -lvl 2 -x 110 -y 340 -defaultsOSRD -pinDir CLK left -pinY CLK 0L -pinDir PIN left -pinY PIN 20L -pinDir Q right -pinY Q 0R
 preplace inst data_consumer -pg 1 -lvl 5 -x 1130 -y 260 -defaultsOSRD -pinDir AXIS_RX left -pinY AXIS_RX 0L -pinDir clk left -pinY clk 120L
 preplace inst system_ila -pg 1 -lvl 4 -x 787 -y 520 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 14 13} -defaultsOSRD -pinDir SLOT_0_AXIS left -pinY SLOT_0_AXIS 0L -pinDir SLOT_1_AXIS right -pinY SLOT_1_AXIS 0R -pinDir clk left -pinY clk 20L -pinBusDir probe0 left -pinBusY probe0 60L -pinDir resetn left -pinY resetn 40L
 preplace inst add_header -pg 1 -lvl 4 -x 787 -y 260 -defaultsOSRD -pinDir axis_data left -pinY axis_data 0L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L
+preplace inst packet_gen -pg 1 -lvl 3 -x 390 -y 260 -swap {0 1 2 3 4 5 7 6 8} -defaultsOSRD -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 0L -pinDir start left -pinY start 40L
 preplace netloc PIN_0_1 1 0 2 NJ 360 NJ
 preplace netloc button_Q 1 2 2 230 580 NJ
 preplace netloc clk_in1_0_1 1 0 1 NJ 260
@@ -31,7 +31,7 @@ levelinfo -pg 1 -313 -133 110 390 787 1130 1240
 pagesize -pg 1 -db -bbox -sgen -460 0 1240 760
 ",
    "No Loops_ScaleFactor":"1.0",
-   "No Loops_TopLeft":"-1162,88",
+   "No Loops_TopLeft":"-522,-18",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x -90 -y -230 -defaultsOSRD

@@ -19,7 +19,7 @@
 */
 
 
-module add_header # (parameter DW = 128)
+module add_header # (parameter DW = 128, FIFO_DEPTH = 2048)
 (
     input   clk, resetn,
 
@@ -203,7 +203,7 @@ end
 //=============================================================================
 xpm_fifo_axis #(
   .TDATA_WIDTH(DW),               // DECIMAL
-  .FIFO_DEPTH(2048),              // DECIMAL
+  .FIFO_DEPTH(FIFO_DEPTH),        // DECIMAL
   .CDC_SYNC_STAGES(3),            // DECIMAL
   .CLOCKING_MODE("common_clock"), // String
   .FIFO_MEMORY_TYPE("auto"),      // String
@@ -265,7 +265,7 @@ data_fifo (
 //=============================================================================
 xpm_fifo_axis #(
   .TDATA_WIDTH(DW),               // DECIMAL
-  .FIFO_DEPTH(2048),              // DECIMAL
+  .FIFO_DEPTH(FIFO_DEPTH),        // DECIMAL
   .CDC_SYNC_STAGES(3),            // DECIMAL
   .CLOCKING_MODE("common_clock"), // String
   .FIFO_MEMORY_TYPE("auto"),      // String

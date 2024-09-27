@@ -19,7 +19,7 @@
 */
 
 
-module add_header # (parameter DW = 128, FIFO_DEPTH = 2048)
+module add_header # (parameter DW = 128, FIFO_DEPTH = 16)
 (
     input   clk, resetn,
 

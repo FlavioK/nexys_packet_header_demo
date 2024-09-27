@@ -1,0 +1,208 @@
+#-----------------------------------------------------------
+# Vivado v2021.1 (64-bit)
+# SW Build 3247384 on Thu Jun 10 19:36:07 MDT 2021
+# IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+# Start of session at: Tue Sep 24 23:41:21 2024
+# Process ID: 134861
+# Current directory: /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src
+# Command line: vivado
+# Log file: /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/vivado.log
+# Journal file: /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /home/sonnenbf/Repos/FpgaProjects/stopwatch/project.xpr
+WARNING: [filemgmt 56-3] IPUserFilesDir: Could not find the directory '/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.ip_user_files'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2021.1/data/ip'.
+INFO: [IP_Flow 19-3899] Cannot get the environment domain name variable for the component vendor name. Setting the vendor name to 'user.org'.
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd}
+Reading block design file </home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd>...
+Adding component instance block -- xilinx.com:ip:clk_wiz:6.0 - system_clock
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - system_reset
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - system_interconnect
+Adding component instance block -- xilinx.com:module_ref:axi_uart_bridge:1.0 - axi_uart_bridge
+Adding component instance block -- xilinx.com:ip:axi_uartlite:2.0 - uart
+Adding component instance block -- xilinx.com:module_ref:sevenseg_driver:1.0 - sevenseg_driver
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - start_button
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - clear_button
+Adding component instance block -- xilinx.com:module_ref:stopwatch_axi:1.0 - stopwatch_axi_0
+Adding component instance block -- xilinx.com:module_ref:stopwatch:1.0 - stopwatch_0
+Successfully read diagram <top_level> from block design file </home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd>
+update_compile_order -fileset sources_1
+close_project
+open_project /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2021.1/data/ip'.
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd}
+Reading block design file </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd>...
+Adding component instance block -- xilinx.com:ip:clk_wiz:6.0 - system_clock
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - system_reset
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - button
+Adding component instance block -- xilinx.com:module_ref:data_consumer:1.0 - data_consumer
+Adding component instance block -- xilinx.com:ip:system_ila:1.1 - system_ila
+Adding component instance block -- xilinx.com:module_ref:add_header:1.0 - add_header
+Adding component instance block -- xilinx.com:module_ref:packet_gen:1.0 - packet_gen
+Successfully read diagram <top_level> from block design file </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd>
+update_compile_order -fileset sources_1
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_0
+endgroup
+set_property -dict [list CONFIG.NUM_SI {1}] [get_bd_cells smartconnect_0]
+set_property name SystemInterconnect [get_bd_cells smartconnect_0]
+save_bd_design
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd> 
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/ui/bd_39d0265a.ui> 
+close_project
+open_project /home/sonnenbf/Repos/FpgaProjects/stopwatch/project.xpr
+WARNING: [filemgmt 56-3] IPUserFilesDir: Could not find the directory '/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.ip_user_files'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2021.1/data/ip'.
+update_compile_order -fileset sources_1
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd}
+Reading block design file </home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd>...
+Adding component instance block -- xilinx.com:ip:clk_wiz:6.0 - system_clock
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - system_reset
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - system_interconnect
+Adding component instance block -- xilinx.com:module_ref:axi_uart_bridge:1.0 - axi_uart_bridge
+Adding component instance block -- xilinx.com:ip:axi_uartlite:2.0 - uart
+Adding component instance block -- xilinx.com:module_ref:sevenseg_driver:1.0 - sevenseg_driver
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - start_button
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - clear_button
+Adding component instance block -- xilinx.com:module_ref:stopwatch_axi:1.0 - stopwatch_axi_0
+Adding component instance block -- xilinx.com:module_ref:stopwatch:1.0 - stopwatch_0
+Successfully read diagram <top_level> from block design file </home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd>
+close_project
+open_project /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2021.1/data/ip'.
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd}
+Reading block design file </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd>...
+Adding component instance block -- xilinx.com:ip:clk_wiz:6.0 - system_clock
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - system_reset
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - button
+Adding component instance block -- xilinx.com:module_ref:data_consumer:1.0 - data_consumer
+Adding component instance block -- xilinx.com:ip:system_ila:1.1 - system_ila
+Adding component instance block -- xilinx.com:module_ref:add_header:1.0 - add_header
+Adding component instance block -- xilinx.com:module_ref:packet_gen:1.0 - packet_gen
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - SystemInterconnect
+Successfully read diagram <top_level> from block design file </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd>
+update_compile_order -fileset sources_1
+set_property name system_interconnect [get_bd_cells SystemInterconnect]
+set_property location {3 375 658} [get_bd_cells system_interconnect]
+connect_bd_net [get_bd_pins system_interconnect/aclk] [get_bd_pins source_50mhz/clk_50mhz]
+connect_bd_net [get_bd_pins system_interconnect/aresetn] [get_bd_pins source_50mhz/peripheral_aresetn]
+add_files -norecurse {/home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/axi/axi_uart_bridge.v /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/packet_gen_axi.v /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/axi/axi4_lite_slave.v}
+update_compile_order -fileset sources_1
+create_bd_cell -type module -reference axi_uart_bridge axi_uart_bridge_0
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'AXI_ADDR_WIDTH' by 64 for port or parameter 'amci_raddr'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'AXI_DATA_WIDTH' by 32 for port or parameter 'amci_rdata'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'AXI_ADDR_WIDTH' by 64 for port or parameter 'amci_waddr'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'AXI_DATA_WIDTH' by 32 for port or parameter 'amci_wdata'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'INP_BUFF_SIZE' by 13 for port or parameter 'inp_buff'
+INFO: [IP_Flow 19-5107] Inferred bus interface 'M_AXI' of definition 'xilinx.com:interface:aximm:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'M_UART' of definition 'xilinx.com:interface:aximm:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'aresetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'aclk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 'aresetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'.
+INFO: [IP_Flow 19-8018] Clock interface aclk has no prefix in its name to identify associated interfaces. The interfaces might be inferred incorrectly. It is advised to review ASSOCIATED_BUSIF value for this interface.
+INFO: [IP_Flow 19-4728] Bus Interface 'aclk': Added interface parameter 'ASSOCIATED_BUSIF' with value 'M_AXI'.
+INFO: [IP_Flow 19-4728] Bus Interface 'aclk': Added interface parameter 'ASSOCIATED_RESET' with value 'aresetn'.
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+connect_bd_net [get_bd_pins axi_uart_bridge_0/aclk] [get_bd_pins source_50mhz/clk_50mhz]
+connect_bd_net [get_bd_pins axi_uart_bridge_0/aresetn] [get_bd_pins source_50mhz/peripheral_aresetn]
+connect_bd_intf_net [get_bd_intf_pins axi_uart_bridge_0/M_AXI] [get_bd_intf_pins system_interconnect/S00_AXI]
+create_bd_cell -type module -reference packet_gen_axi packet_gen_axi_0
+INFO: [IP_Flow 19-5107] Inferred bus interface 'S_AXI' of definition 'xilinx.com:interface:aximm:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'.
+INFO: [IP_Flow 19-8018] Clock interface clk has no prefix in its name to identify associated interfaces. The interfaces might be inferred incorrectly. It is advised to review ASSOCIATED_BUSIF value for this interface.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_BUSIF' with value 'S_AXI'.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'.
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+connect_bd_intf_net [get_bd_intf_pins system_interconnect/M00_AXI] [get_bd_intf_pins packet_gen_axi_0/S_AXI]
+connect_bd_net [get_bd_pins packet_gen_axi_0/clk] [get_bd_pins source_50mhz/clk_50mhz]
+connect_bd_net [get_bd_pins packet_gen_axi_0/resetn] [get_bd_pins source_50mhz/peripheral_aresetn]
+delete_bd_objs [get_bd_nets PIN_0_1] [get_bd_cells button]
+update_compile_order -fileset sources_1
+delete_bd_objs [get_bd_nets button_Q]
+connect_bd_net [get_bd_pins packet_gen_axi_0/start_gen] [get_bd_pins packet_gen/start]
+connect_bd_net [get_bd_pins system_ila/probe0] [get_bd_pins packet_gen_axi_0/start_gen]
+regenerate_bd_layout
+group_bd_cells packet_generator [get_bd_cells packet_gen_axi_0] [get_bd_cells packet_gen]
+regenerate_bd_layout
+update_module_reference top_level_packet_gen_0_0
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'MAX_ARRAY' by 8 for port or parameter 'plen'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'MAX_ARRAY' by 8 for port or parameter 'plen_idx'
+INFO: [IP_Flow 19-5107] Inferred bus interface 'axis_out' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'resetn' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 'resetn': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'.
+INFO: [IP_Flow 19-8018] Clock interface clk has no prefix in its name to identify associated interfaces. The interfaces might be inferred incorrectly. It is advised to review ASSOCIATED_BUSIF value for this interface.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_BUSIF' with value 'axis_out'.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'resetn'.
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+Upgrading '/home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd'
+INFO: [IP_Flow 19-1972] Upgraded top_level_packet_gen_0_0 from packet_gen_v1_0 1.0 to packet_gen_v1_0 1.0
+WARNING: [IP_Flow 19-4698] Upgrade has added port 'clear_packets'
+WARNING: [IP_Flow 19-4698] Upgrade has added port 'gen_status'
+WARNING: [IP_Flow 19-4698] Upgrade has added port 'number_of_packets'
+WARNING: [IP_Flow 19-4698] Upgrade has added port 'packet'
+WARNING: [IP_Flow 19-3298] Detected external port differences while upgrading 'top_level_packet_gen_0_0'. These changes may impact your design.
+CRITICAL WARNING: [Coretcl 2-1280] The upgrade of 'top_level_packet_gen_0_0' has identified issues that may require user intervention. Please verify that the instance is correctly configured, and review any upgrade messages.
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd> 
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/ui/bd_39d0265a.ui> 
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/ui/bd_1c45317a.ui> 
+update_compile_order -fileset sources_1
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/packet] [get_bd_pins packet_generator/packet_gen/packet]
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/clear_packets] [get_bd_pins packet_generator/packet_gen/clear_packets]
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/gen_status] [get_bd_pins packet_generator/packet_gen/gen_status]
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/number_of_packets] [get_bd_pins packet_generator/packet_gen/number_of_packets]
+regenerate_bd_layout
+regenerate_bd_layout
+save_bd_design
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd> 
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/ui/bd_39d0265a.ui> 
+Wrote  : </home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/ui/bd_1c45317a.ui> 
+close_project
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+open_project /home/sonnenbf/Repos/FpgaProjects/stopwatch/project.xpr
+WARNING: [filemgmt 56-3] IPUserFilesDir: Could not find the directory '/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.ip_user_files'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2021.1/data/ip'.
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd}
+Reading block design file </home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd>...
+Adding component instance block -- xilinx.com:ip:clk_wiz:6.0 - system_clock
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - system_reset
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - system_interconnect
+Adding component instance block -- xilinx.com:module_ref:axi_uart_bridge:1.0 - axi_uart_bridge
+Adding component instance block -- xilinx.com:ip:axi_uartlite:2.0 - uart
+Adding component instance block -- xilinx.com:module_ref:sevenseg_driver:1.0 - sevenseg_driver
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - start_button
+Adding component instance block -- xilinx.com:module_ref:button:1.0 - clear_button
+Adding component instance block -- xilinx.com:module_ref:stopwatch_axi:1.0 - stopwatch_axi_0
+Adding component instance block -- xilinx.com:module_ref:stopwatch:1.0 - stopwatch_0
+Successfully read diagram <top_level> from block design file </home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd>
+update_compile_order -fileset sources_1
+set_property offset 0x40600000 [get_bd_addr_segs {axi_uart_bridge/axi_uart_bridge/M_UART/SEG_uart_Reg}]
+exit
+INFO: [Common 17-206] Exiting Vivado at Wed Sep 25 11:31:54 2024...

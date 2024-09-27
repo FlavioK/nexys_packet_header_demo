@@ -1,0 +1,69 @@
+#-----------------------------------------------------------
+# Vivado v2021.1 (64-bit)
+# SW Build 3247384 on Thu Jun 10 19:36:07 MDT 2021
+# IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+# Start of session at: Tue Sep 24 23:41:21 2024
+# Process ID: 134861
+# Current directory: /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src
+# Command line: vivado
+# Log file: /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/vivado.log
+# Journal file: /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /home/sonnenbf/Repos/FpgaProjects/stopwatch/project.xpr
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd}
+update_compile_order -fileset sources_1
+close_project
+open_project /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.xpr
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd}
+update_compile_order -fileset sources_1
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_0
+endgroup
+set_property -dict [list CONFIG.NUM_SI {1}] [get_bd_cells smartconnect_0]
+set_property name SystemInterconnect [get_bd_cells smartconnect_0]
+save_bd_design
+close_project
+open_project /home/sonnenbf/Repos/FpgaProjects/stopwatch/project.xpr
+update_compile_order -fileset sources_1
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd}
+close_project
+open_project /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.xpr
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/project.srcs/sources_1/bd/top_level/top_level.bd}
+update_compile_order -fileset sources_1
+set_property name system_interconnect [get_bd_cells SystemInterconnect]
+set_property location {3 375 658} [get_bd_cells system_interconnect]
+connect_bd_net [get_bd_pins system_interconnect/aclk] [get_bd_pins source_50mhz/clk_50mhz]
+connect_bd_net [get_bd_pins system_interconnect/aresetn] [get_bd_pins source_50mhz/peripheral_aresetn]
+add_files -norecurse {/home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/axi/axi_uart_bridge.v /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/packet_gen_axi.v /home/sonnenbf/Repos/FpgaProjects/nexys_packet_header_demo/src/axi/axi4_lite_slave.v}
+update_compile_order -fileset sources_1
+create_bd_cell -type module -reference axi_uart_bridge axi_uart_bridge_0
+connect_bd_net [get_bd_pins axi_uart_bridge_0/aclk] [get_bd_pins source_50mhz/clk_50mhz]
+connect_bd_net [get_bd_pins axi_uart_bridge_0/aresetn] [get_bd_pins source_50mhz/peripheral_aresetn]
+connect_bd_intf_net [get_bd_intf_pins axi_uart_bridge_0/M_AXI] [get_bd_intf_pins system_interconnect/S00_AXI]
+create_bd_cell -type module -reference packet_gen_axi packet_gen_axi_0
+connect_bd_intf_net [get_bd_intf_pins system_interconnect/M00_AXI] [get_bd_intf_pins packet_gen_axi_0/S_AXI]
+connect_bd_net [get_bd_pins packet_gen_axi_0/clk] [get_bd_pins source_50mhz/clk_50mhz]
+connect_bd_net [get_bd_pins packet_gen_axi_0/resetn] [get_bd_pins source_50mhz/peripheral_aresetn]
+delete_bd_objs [get_bd_nets PIN_0_1] [get_bd_cells button]
+update_compile_order -fileset sources_1
+delete_bd_objs [get_bd_nets button_Q]
+connect_bd_net [get_bd_pins packet_gen_axi_0/start_gen] [get_bd_pins packet_gen/start]
+connect_bd_net [get_bd_pins system_ila/probe0] [get_bd_pins packet_gen_axi_0/start_gen]
+regenerate_bd_layout
+group_bd_cells packet_generator [get_bd_cells packet_gen_axi_0] [get_bd_cells packet_gen]
+regenerate_bd_layout
+update_module_reference top_level_packet_gen_0_0
+update_compile_order -fileset sources_1
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/packet] [get_bd_pins packet_generator/packet_gen/packet]
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/clear_packets] [get_bd_pins packet_generator/packet_gen/clear_packets]
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/gen_status] [get_bd_pins packet_generator/packet_gen/gen_status]
+connect_bd_net [get_bd_pins packet_generator/packet_gen_axi_0/number_of_packets] [get_bd_pins packet_generator/packet_gen/number_of_packets]
+regenerate_bd_layout
+regenerate_bd_layout
+save_bd_design
+close_project
+open_project /home/sonnenbf/Repos/FpgaProjects/stopwatch/project.xpr
+open_bd_design {/home/sonnenbf/Repos/FpgaProjects/stopwatch/project.srcs/sources_1/bd/top_level/top_level.bd}
+update_compile_order -fileset sources_1
+set_property offset 0x40600000 [get_bd_addr_segs {axi_uart_bridge/axi_uart_bridge/M_UART/SEG_uart_Reg}]

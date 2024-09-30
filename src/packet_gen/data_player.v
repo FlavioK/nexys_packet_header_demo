@@ -62,6 +62,8 @@ module data_player # (parameter DW=16, CAPACITY=1024)
     // -------------------------------------------------
 );
 
+// The generated length always just consist of 1 cycle of data.
+// Therefore tlast can always be asserted with tvalid.
 assign  axis_out_tlast = axis_out_tvalid;
 
 // The two statuses we can be in.
@@ -71,42 +73,50 @@ localparam STATE_REPLAY    = 1;
 //=============================================================================
 // These signals are used to connect the internal FIFO
 //=============================================================================
-    // To feed the fifo
-    reg        [DW-1:0]    fifo_data_in_tdata;
-    reg                    fifo_data_in_tvalid;
-    wire                   fifo_data_in_tready;
 
-    // To drain the fifo
-    wire      [DW-1:0]     fifo_data_out_tdata;
-    wire                   fifo_data_out_tvalid;
-    reg                    fifo_data_out_tready;
+// To feed the fifo
+reg        [DW-1:0]    fifo_data_in_tdata;
+reg                    fifo_data_in_tvalid;
+wire                   fifo_data_in_tready;
+
+// To drain the fifo
+wire      [DW-1:0]     fifo_data_out_tdata;
+wire                   fifo_data_out_tvalid;
+reg                    fifo_data_out_tready;
 //=============================================================================
+
+
+//=============================================================================
+// These signals connect the FIFOs tready, and clear signals with the current
+// state we are in.
+//=============================================================================
+
+// Clear can only be used in recording state
+assign clear_ready       = (player_state == STATE_RECORDING);
 
 // Reset the fifo in case we get a reset signal or if we get the clear signal
 // and the player is in recording state.
 // clear the fifo only if we receive the clear signal and are in recording state.
-assign fifo_clearn = !(clear && player_state == STATE_RECORDING);
-
-// Clear can only be used in recording state
-assign clear_ready       = player_state == STATE_RECORDING;
+assign fifo_clearn = !(clear && clear_ready);
 
 // We only allow recording if the fifo is ready and size did not exceed yet the CAPACITY.
 // Reason for this check is that the FIFO seems to be able to hold 2 elements
 // more than CAPACITY elements. If we even fill these two elements up, the
 // replay mechanism fails due to not enough space while back feeding.
 assign recording_tready = fifo_data_in_tready && (size < CAPACITY);
-
-// Used to latch the request to switch back to recording state.
-reg request_recording;
-
-// Current playback position
-reg [31:0] playback_pos;
+//=============================================================================
 
 //=============================================================================
 // This state machine is used control the current data_player state.
 // If decides when we switch to the REPLAY or RECORDING states and keeps track
 // of the current recording position and FIFO size.
 //=============================================================================
+
+// Used to latch the request to switch back to recording state.
+reg request_recording;
+// Current playback position
+reg [31:0] playback_pos;
+
 always @(posedge clk) begin
 
     // If we are in replay mode and receive a start signal, we request the state

@@ -102,6 +102,11 @@ reg request_recording;
 // Current playback position
 reg [31:0] playback_pos;
 
+//=============================================================================
+// This state machine is used control the current data_player state.
+// If decides when we switch to the REPLAY or RECORDING states and keeps track
+// of the current recording position and FIFO size.
+//=============================================================================
 always @(posedge clk) begin
 
     // If we are in replay mode and receive a start signal, we request the state
@@ -157,6 +162,10 @@ always @(posedge clk) begin
     endcase
 end
 
+//=============================================================================
+// This always block takes care of the correct data routing based on the
+// data_player state we are in.
+//=============================================================================
 always @* begin
 
     if (resetn == 0) begin

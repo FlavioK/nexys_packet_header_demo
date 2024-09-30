@@ -132,22 +132,26 @@ always @(posedge clk) begin
             end
 
         STATE_REPLAY:
-            // If a switch to recording got requested and we are at the start pos of
-            // the playback, we switch to the recording state.
-            if (request_recording && playback_pos == 0) begin
-                request_recording <= 0;
-                player_state      <=  STATE_RECORDING;
-            end
-            else if (axis_out_tvalid && axis_out_tready) begin
-                // Keep track of the current playback position, so we can allow the
-                // switch to the recording state at the right time.
-                // We are at position size - 1 which means we when through a whole loop.
-                // The -1 since the tracking of the current position is one
-                // cycle behind and we increment the current while outputting it.
-                if (playback_pos == (size-1)) begin 
-                    playback_pos <= 0;
-                end else begin
-                    playback_pos <= playback_pos + 1;
+            // Go to the next play back position in case we got the confirmation from the consumer.
+            if (axis_out_tready) begin
+                // If a switch to recording got requested and we are at the end pos
+                // of the playback, we switch to the recording state.
+                if (request_recording && (playback_pos == (size-1))) begin
+                    request_recording <= 0;
+                    player_state      <=  STATE_RECORDING;
+                end
+                // Otherwise just increment the play back position
+                else begin
+                    // Keep track of the current playback position, so we can allow the
+                    // switch to the recording state at the right time.
+                    // We are at position size - 1 which means we went through a whole loop.
+                    // The -1 since the tracking of the current position is one
+                    // cycle behind and we increment the current while outputting it.
+                    if (playback_pos == (size-1)) begin 
+                        playback_pos <= 0;
+                    end else begin
+                        playback_pos <= playback_pos + 1;
+                    end
                 end
             end
     endcase

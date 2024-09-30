@@ -117,5 +117,6 @@ if [ "$1" == "" ]; then
 	echo "    \"./packet_gen_control.sh control\"             | Start/Stop the generation"
 	echo "    \"./packet_gen_control.sh status\"              | Get the generation status"
 	echo "    \"./packet_gen_control.sh add <packet_length>\" | Add a new packet"
+	echo "    \"./packet_gen_control.sh mult <num_packtes>\"  | Add multiple packets"
 	echo "    \"./packet_gen_control.sh clear\"               | Clear currently recorded lengths."
 fi

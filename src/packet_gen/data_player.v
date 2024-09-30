@@ -84,10 +84,22 @@ localparam STATE_REPLAY    = 1;
 
 // Reset the fifo in case we get a reset signal or if we get the clear signal
 // and the player is in recording state.
-assign fifo_data_aresetn = !(!resetn || (clear && player_state == STATE_RECORDING));
+// clear the fifo only if we receive the clear signal and are in recording state.
+assign fifo_clearn = !(clear && player_state == STATE_RECORDING);
+
+// Clear can only be used in recording state
 assign clear_ready       = player_state == STATE_RECORDING;
 
+// We only allow recording if the fifo is ready and size did not exceed yet the CAPACITY.
+// Reason for this check is that the FIFO seems to be able to hold 2 elements
+// more than CAPACITY elements. If we even fill these two elements up, the
+// replay mechanism fails due to not enough space while back feeding.
+assign recording_tready = fifo_data_in_tready && (size < CAPACITY);
+
+// Used to latch the request to switch back to recording state.
 reg request_recording;
+
+// Current playback position
 reg [31:0] playback_pos;
 
 always @(posedge clk) begin
@@ -105,20 +117,22 @@ always @(posedge clk) begin
     else case(player_state)
 
         STATE_RECORDING:
+            // We can enter replay start if we get the start signal and have at
+            // least 1 length stored.
             if (start && (size > 0)) begin
                 player_state  <= STATE_REPLAY;
                 playback_pos  <= 0;
 
-            end else if (axis_in_tvalid && fifo_data_in_tready) begin
-                // We just keep track of the data we are recording here.
-                size <= size + 1;
             end else if (clear) begin
                 // If clear is requested, set the size to 0
                 size <= 0;
+            end else if (axis_in_tvalid && recording_tready) begin
+                // We just keep track of the data we are recording here.
+                size <= size + 1;
             end
 
         STATE_REPLAY:
-            // If a switch to recording got requested and we are in the start pos of
+            // If a switch to recording got requested and we are at the start pos of
             // the playback, we switch to the recording state.
             if (request_recording && playback_pos == 0) begin
                 request_recording <= 0;
@@ -142,9 +156,12 @@ end
 always @* begin
 
     if (resetn == 0) begin
-        axis_out_tvalid   = 0;
-        axis_out_tdata    = 0;
-        axis_in_tready    = 0;
+        axis_out_tvalid      = 0;
+        axis_out_tdata       = 0;
+        axis_in_tready       = 0;
+        fifo_data_in_tvalid  = 0;
+        fifo_data_in_tdata   = 0;
+        fifo_data_out_tready = 0;
     end
 
     else case(player_state)
@@ -152,13 +169,15 @@ always @* begin
     // In this state, axis_out is fed from fifo_out_plen
     STATE_RECORDING:
         begin
-            // We stop outputing useful data in this state.
-            axis_out_tvalid     = 0;
-            axis_out_tdata      = 0;
+            // We stop outputting useful data in this state.
+            axis_out_tvalid      = 0;
+            axis_out_tdata       = 0;
+            fifo_data_out_tready = 0;
+
             // Pipe in the data to record.
             fifo_data_in_tdata  = axis_in_tdata;
             fifo_data_in_tvalid = axis_in_tvalid;
-            axis_in_tready      = fifo_data_in_tready;
+            axis_in_tready      = recording_tready;
         end
 
     // In this state, axis_out is fed from fifo_out_data
@@ -203,14 +222,14 @@ packet_length_fifo (
     // Clock and reset
 .s_aclk   (clk   ),
 .m_aclk   (clk   ),
-.s_aresetn(fifo_data_aresetn),
+.s_aresetn(fifo_clearn && resetn),
 
-// The input of this FIFO is the AXIS_RDMX interface
+// The input of this FIFO is either the FIFO output or the modules length input.
 .s_axis_tdata (fifo_data_in_tdata),
 .s_axis_tvalid(fifo_data_in_tvalid),
 .s_axis_tready(fifo_data_in_tready),
 
-// The output of this FIFO drives the "W" channel of the M_AXI interface
+// The output of this FIFO drives the output of this module and its own input.
 .m_axis_tdata (fifo_data_out_tdata),
 .m_axis_tvalid(fifo_data_out_tvalid),
 .m_axis_tready(fifo_data_out_tready),

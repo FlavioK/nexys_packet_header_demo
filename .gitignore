@@ -8,6 +8,8 @@
 !project.xpr
 !src
 !src/**
+!scripts
+!scripts/**
 !xdc
 !scripts
 !grab.sh

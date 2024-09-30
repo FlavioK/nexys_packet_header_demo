@@ -20,7 +20,7 @@
 
 
 module packet_gen_axi #(
-    parameter AW = 7, LW=16
+    parameter AW = 7, LENGTH_WIDTH=16
 ) (
 
     input clk,
@@ -30,7 +30,7 @@ module packet_gen_axi #(
     // If set to false, the packet_generation is in idle mode
     input               gen_status,
     // New length
-    output reg [LW-1:0] axis_out_length_tdata,
+    output reg [LENGTH_WIDTH-1:0] axis_out_length_tdata,
     output reg          axis_out_length_tvalid,
     input               axis_out_length_tready,
     // Number of stored package lengths.
@@ -77,11 +77,11 @@ module packet_gen_axi #(
   localparam MODULE_VERSION = 32'h00000001;
 
   //=========================  AXI Register Map  =============================
-  localparam REG_VERSION = 0;
-  localparam REG_START_STOP = 1;
-  localparam REG_STATUS = 2;
-  localparam REG_ADD_PACKET = 3;
-  localparam REG_CLEAR_PACKETS = 4;
+  localparam REG_VERSION = 0;           //  0: Get module version
+  localparam REG_START_STOP = 1;        //  4: Start/Stop the generation
+  localparam REG_STATUS = 2;            //  8: Get generation status
+  localparam REG_ADD_PACKET = 3;        //  C: Add length or request number or lengths
+  localparam REG_CLEAR_PACKETS = 4;     // 10: Clear all lengths
   //==========================================================================
 
 
@@ -139,7 +139,6 @@ module packet_gen_axi #(
     // If we're in reset, initialize important registers
     if (resetn == 0) begin
       ashi_write_state <= 0;
-      axis_out_length_tdata    <= 0;
 
       // If we're not in reset, and a write-request has occured...        
     end else
@@ -153,7 +152,11 @@ module packet_gen_axi #(
           // Examine the register index to determine which register we're writing to
           case (ashi_windx)
 
-            REG_START_STOP: begin
+            REG_START_STOP:
+            // If we have no recorded lengths, and we want to start the generator, we thorw an error.
+            if ( (recording_size == 0 ) && (gen_status == 0))begin
+              ashi_wresp <= SLVERR;
+            end else begin
               start_gen <= 1;
             end
 

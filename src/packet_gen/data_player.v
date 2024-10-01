@@ -27,8 +27,8 @@ module data_player # (parameter DW=16, CAPACITY=1024)
     // =================================================
     // Controlling and recording interface
     // =================================================
-    // We start generating packets when this is asserted
-    input                           start,
+    // We start generating packets when this is asserted --> Not correct com
+    input                           start, // ====> Call it playback_enable
     // Feeding status. If True, replay is in progress.
     output reg                      player_state,
 
@@ -55,7 +55,7 @@ module data_player # (parameter DW=16, CAPACITY=1024)
     output reg [DW-1:0]         axis_out_tdata,
     // The current data from the playback.
     output reg                  axis_out_tvalid,
-    // This is here to satisfy the ILA
+    // This is here to satisfy the ILA   ==> Remove
     output                      axis_out_tlast,
     // The current data from the playback can be consumed.
     input                       axis_out_tready
@@ -97,7 +97,7 @@ assign clear_ready       = (player_state == STATE_RECORDING);
 // Reset the fifo in case we get a reset signal or if we get the clear signal
 // and the player is in recording state.
 // clear the fifo only if we receive the clear signal and are in recording state.
-assign fifo_clearn = !(clear && clear_ready);
+assign fifo_clearn = !(clear && clear_ready); // ===> reset should be at least 16 cycles for xilinx IPs.
 
 // We only allow recording if the fifo is ready and size did not exceed yet the CAPACITY.
 // Reason for this check is that the FIFO seems to be able to hold 2 elements
@@ -109,7 +109,7 @@ assign recording_tready = fifo_data_in_tready && (size < CAPACITY);
 //=============================================================================
 // This state machine is used control the current data_player state.
 // If decides when we switch to the REPLAY or RECORDING states and keeps track
-// of the current recording position and FIFO size.
+// of the current replay position and FIFO size.
 //=============================================================================
 
 // Used to latch the request to switch back to recording state.
@@ -121,7 +121,7 @@ always @(posedge clk) begin
 
     // If we are in replay mode and receive a start signal, we request the state
     // machine to switch to the recording state as soon as possible.
-    if(start && player_state == STATE_REPLAY) request_recording <= 1;
+    if(start && player_state == STATE_REPLAY) request_recording <= 1; // <== can be removed since start witll be static
 
     if (resetn == 0) begin
         player_state      <= STATE_RECORDING;
@@ -146,12 +146,12 @@ always @(posedge clk) begin
                 size <= size + 1;
             end
 
-        STATE_REPLAY:
+        STATE_REPLAY: // ====> Clean that up!!!!
             // Go to the next play back position in case we got the confirmation from the consumer.
-            if (axis_out_tready) begin
+            if (axis_out_tready) begin // ==> Add tvalid check too.
                 // If a switch to recording got requested and we are at the end pos
                 // of the playback, we switch to the recording state.
-                if (request_recording && (playback_pos == (size-1))) begin
+                if (request_recording && (playback_pos == (size-1))) begin // ==> Just check the replay position once.
                     request_recording <= 0;
                     player_state      <=  STATE_RECORDING;
                 end
@@ -174,7 +174,7 @@ end
 
 //=============================================================================
 // This always block takes care of the correct data routing based on the
-// data_player state we are in.
+// data_player state we are in.  ==> Change this blocks routs the data into the FIFO.
 //=============================================================================
 always @* begin
 
@@ -206,7 +206,7 @@ always @* begin
     // In this state, axis_out is fed from fifo_out_data
     STATE_REPLAY:
         begin
-            // We disallow feed new length data in playback mode.
+            // We disallow feed new length data in playback mode. ====> Use either replay or playback not both
             axis_in_tready = 0;
 
             // We are replaying now. Feed the output accordingly!
@@ -220,8 +220,8 @@ always @* begin
 
             // Feed the loopback! But only in case we are sure that the
             // consumer eat out new data.
-            fifo_data_in_tvalid = fifo_data_out_tvalid && axis_out_tready;
-            fifo_data_in_tdata  = fifo_data_out_tdata;
+            fifo_data_in_tvalid = fifo_data_out_tvalid && axis_out_tready; // <==== Use axis_out_tvalid here since the fifo got already routed.
+            fifo_data_in_tdata  = fifo_data_out_tdata; // <== Use axis_out_tdata here.
         end
     endcase
 end

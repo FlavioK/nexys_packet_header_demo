@@ -25,18 +25,24 @@ module packet_gen_axi #(
 
     input clk,
     input resetn,
+
     // If set to true, the packet_generation gets started
-    output reg          start_gen,
+    output reg          start_gen, // ==> Rename!!! 
+
     // If set to false, the packet_generation is in idle mode
-    input               gen_status,
+    input               gen_status, // rename to packet_gen busy
+
     // New length
     output reg [LENGTH_WIDTH-1:0] axis_out_length_tdata,
     output reg          axis_out_length_tvalid,
     input               axis_out_length_tready,
+
     // Number of stored package lengths.
     input [31:0]      recording_size,
+
     // Clear signal. If 1 the stored lengths can be cleared.
     output reg        clear,
+
     // If True, the clear operation is available.
     input             clear_ready,
 
@@ -74,7 +80,7 @@ module packet_gen_axi #(
 
 
 );
-  localparam MODULE_VERSION = 32'h00000001;
+  localparam MODULE_VERSION = 32'h00000001;// no width needed.
 
   //=========================  AXI Register Map  =============================
   localparam REG_VERSION = 0;           //  0: Get module version
@@ -132,7 +138,7 @@ module packet_gen_axi #(
   always @(posedge clk) begin
 
     // Apply value only 1 for one clock cycle.
-    start_gen    <= 0;
+    start_gen    <= 0;  // ===> Could be a static signal. Would make more sense.
     clear        <= 0;
     axis_out_length_tvalid <= 0;
 
@@ -153,12 +159,12 @@ module packet_gen_axi #(
           case (ashi_windx)
 
             REG_START_STOP:
-            // If we have no recorded lengths, and we want to start the generator, we thorw an error.
-            if ( (recording_size == 0 ) && (gen_status == 0))begin
-              ashi_wresp <= SLVERR;
-            end else begin
-              start_gen <= 1;
-            end
+              // If we have no recorded lengths, and we want to start the generator, we thorw an error.
+              if ( (recording_size == 0 ) && (gen_status == 0))begin
+                ashi_wresp <= SLVERR;
+              end else begin
+                start_gen <= 1;
+              end
 
             REG_ADD_PACKET: begin
               // Provided packet length must be > 0 and the consumer must be ready to accept it.
@@ -167,9 +173,10 @@ module packet_gen_axi #(
                 axis_out_length_tvalid  <= 1;
               end else ashi_wresp <= SLVERR;
             end
+
             // Package gen must be idle
             REG_CLEAR_PACKETS: begin
-              if (clear_ready) begin
+              if (clear_ready) begin // redundant information which is confusing.
                 clear <= 1;
               end else ashi_wresp <= SLVERR;
             end

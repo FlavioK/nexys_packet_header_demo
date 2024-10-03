@@ -6,52 +6,59 @@
    "Display-PortTypeReset":"true",
    "DisplayTieOff":"1",
    "ExpandedHierarchyInLayout":"",
-   "No Loops_ExpandedHierarchyInLayout":"/packet_gen",
+   "No Loops_ExpandedHierarchyInLayout":"",
    "No Loops_Layers":"/source_50mhz/proc_sys_reset_0_peripheral_aresetn:true|/ext_reset_in_0_1:true|/clk_in1_0_1:true|/source_50mhz/system_clock_clk_100mhz:true|",
    "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port UART -pg 1 -lvl 7 -x 2870 -y 140 -defaultsOSRD
-preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x -40 -y 220 -defaultsOSRD
-preplace port port-id_CPU_RESETN -pg 1 -lvl 0 -x -40 -y 240 -defaultsOSRD
-preplace inst source_50mhz -pg 1 -lvl 1 -x 140 -y 220 -defaultsOSRD -pinDir CLK100MHZ left -pinY CLK100MHZ 0L -pinDir CPU_RESETN left -pinY CPU_RESETN 20L -pinBusDir peripheral_aresetn right -pinBusY peripheral_aresetn 0R -pinDir clk_50mhz right -pinY clk_50mhz 20R
-preplace inst data_consumer -pg 1 -lvl 6 -x 2740 -y 60 -defaultsOSRD -pinDir AXIS_RX left -pinY AXIS_RX 0L -pinDir clk left -pinY clk 20L
-preplace inst system_ila -pg 1 -lvl 6 -x 2740 -y 200 -swap {11 1 2 3 4 0 6 7 8 9 10 5 12 13 14 15 16 18 19 17} -defaultsOSRD -pinDir SLOT_0_AXIS left -pinY SLOT_0_AXIS 180L -pinDir SLOT_1_AXIS left -pinY SLOT_1_AXIS 0L -pinDir SLOT_2_AXIS left -pinY SLOT_2_AXIS 20L -pinDir clk left -pinY clk 220L -pinBusDir probe0 left -pinBusY probe0 240L -pinDir resetn left -pinY resetn 200L
-preplace inst system_interconnect -pg 1 -lvl 3 -x 720 -y 240 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 41 40} -defaultsOSRD -pinDir S00_AXI left -pinY S00_AXI 0L -pinDir M00_AXI right -pinY M00_AXI 40R -pinDir aclk left -pinY aclk 40L -pinDir aresetn left -pinY aresetn 20L
-preplace inst axi_uart_bridge -pg 1 -lvl 2 -x 440 -y 140 -swap {18 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 0 19 20 22 21} -defaultsOSRD -pinDir M_AXI right -pinY M_AXI 100R -pinDir UART right -pinY UART 0R -pinDir s_axi_aclk left -pinY s_axi_aclk 100L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 80L
-preplace inst packet_gen -pg 1 -lvl 4 -x 1100 -y 282 -defaultsOSRD
-preplace inst add_header -pg 1 -lvl 5 -x 2450 -y 280 -defaultsOSRD -pinDir axis_data left -pinY axis_data 0L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L
-preplace inst packet_gen|generator -pg 1 -lvl 3 -x 1980 -y 352 -defaultsOSRD -pinDir axis_in_length left -pinY axis_in_length 0L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir feeding_running left -pinY feeding_running 60L
-preplace inst packet_gen|packet_gen_axi -pg 1 -lvl 1 -x 1220 -y 472 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 30 26 27 28 29} -defaultsOSRD -pinDir axis_out_length right -pinY axis_out_length 0R -pinDir axis_out_length.axis_out_length_tdata right -pinY axis_out_length.axis_out_length_tdata 20R -pinDir axis_out_length.axis_out_length_tvalid right -pinY axis_out_length.axis_out_length_tvalid 40R -pinDir axis_out_length.axis_out_length_tready right -pinY axis_out_length.axis_out_length_tready 60R -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir start_gen right -pinY start_gen 160R -pinDir gen_status right -pinY gen_status 80R -pinBusDir recording_size right -pinBusY recording_size 100R -pinDir clear right -pinY clear 120R -pinDir clear_ready right -pinY clear_ready 140R
-preplace inst packet_gen|length_feeder -pg 1 -lvl 2 -x 1670 -y 472 -swap {0 1 2 3 4 5 6 7 8 9 10 15 12 11 13 14} -defaultsOSRD -pinDir axis_in left -pinY axis_in 0L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir start left -pinY start 120L -pinDir player_state right -pinY player_state 20R -pinBusDir size left -pinBusY size 60L -pinDir clear left -pinY clear 80L -pinDir clear_ready left -pinY clear_ready 100L
-preplace netloc clk_in1_0_1 1 0 1 NJ 220
-preplace netloc ext_reset_in_0_1 1 0 1 NJ 240
-preplace netloc packet_gen_axi_0_start_generation 1 4 2 2290 440 NJ
-preplace netloc source_50mhz_clk_50mhz 1 1 5 300 310 580 340 900 200 2270 400 2590
-preplace netloc source_50mhz_peripheral_aresetn 1 1 5 320 290 560 180 860 220 2290 220 2610
-preplace netloc Conn 1 4 2 2250 380 NJ
-preplace netloc add_header_axis_out 1 5 1 2630 60n
+preplace port UART -pg 1 -lvl 7 -x 3340 -y 140 -defaultsOSRD
+preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x 0 -y 170 -defaultsOSRD
+preplace port port-id_CPU_RESETN -pg 1 -lvl 0 -x 0 -y 230 -defaultsOSRD
+preplace inst source_50mhz -pg 1 -lvl 1 -x 270 -y 140 -defaultsOSRD
+preplace inst data_consumer -pg 1 -lvl 6 -x 3210 -y 60 -defaultsOSRD -pinDir AXIS_RX left -pinY AXIS_RX 0L -pinDir clk left -pinY clk 20L
+preplace inst system_ila -pg 1 -lvl 6 -x 3210 -y 200 -swap {11 1 2 3 4 0 6 7 8 9 10 5 12 13 14 15 16 18 19 17} -defaultsOSRD -pinDir SLOT_0_AXIS left -pinY SLOT_0_AXIS 180L -pinDir SLOT_1_AXIS left -pinY SLOT_1_AXIS 0L -pinDir SLOT_2_AXIS left -pinY SLOT_2_AXIS 20L -pinDir clk left -pinY clk 220L -pinBusDir probe0 left -pinBusY probe0 240L -pinDir resetn left -pinY resetn 200L
+preplace inst system_interconnect -pg 1 -lvl 3 -x 1340 -y 240 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 41 40} -defaultsOSRD -pinDir S00_AXI left -pinY S00_AXI 0L -pinDir M00_AXI right -pinY M00_AXI 40R -pinDir aclk left -pinY aclk 40L -pinDir aresetn left -pinY aresetn 20L
+preplace inst axi_uart_bridge -pg 1 -lvl 2 -x 1060 -y 140 -swap {18 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 0 19 20 22 21} -defaultsOSRD -pinDir M_AXI right -pinY M_AXI 100R -pinDir UART right -pinY UART 0R -pinDir s_axi_aclk left -pinY s_axi_aclk 100L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 30L
+preplace inst packet_gen -pg 1 -lvl 4 -x 1690 -y 282 -defaultsOSRD
+preplace inst add_header -pg 1 -lvl 5 -x 2920 -y 280 -defaultsOSRD -pinDir axis_data left -pinY axis_data 0L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L
+preplace inst source_50mhz|system_clock -pg 1 -lvl 1 -x 280 -y 170 -defaultsOSRD -pinDir clk_in1 left -pinY clk_in1 0L -pinDir clk_100mhz right -pinY clk_100mhz 0R
+preplace inst source_50mhz|system_reset -pg 1 -lvl 2 -x 580 -y 170 -swap {0 3 1 2 4 6 7 8 9 5} -defaultsOSRD -pinDir slowest_sync_clk left -pinY slowest_sync_clk 0L -pinDir ext_reset_in left -pinY ext_reset_in 60L -pinDir aux_reset_in left -pinY aux_reset_in 20L -pinDir mb_debug_sys_rst left -pinY mb_debug_sys_rst 40L -pinDir dcm_locked left -pinY dcm_locked 80L -pinDir mb_reset right -pinY mb_reset 20R -pinBusDir bus_struct_reset right -pinBusY bus_struct_reset 40R -pinBusDir peripheral_reset right -pinBusY peripheral_reset 60R -pinBusDir interconnect_aresetn right -pinBusY interconnect_aresetn 80R -pinBusDir peripheral_aresetn right -pinBusY peripheral_aresetn 0R
+preplace inst packet_gen|generator -pg 1 -lvl 3 -x 2420 -y 352 -defaultsOSRD -pinDir axis_in_length left -pinY axis_in_length 0L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir feeding_idle left -pinY feeding_idle 60L
+preplace inst packet_gen|packet_gen_axi -pg 1 -lvl 1 -x 1800 -y 452 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 29 27 28} -defaultsOSRD -pinDir axis_out_length right -pinY axis_out_length 0R -pinDir S_AXI left -pinY S_AXI 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir generation_enable right -pinY generation_enable 60R -pinDir generation_idle right -pinY generation_idle 120R -pinBusDir recording_size right -pinBusY recording_size 80R -pinDir clear right -pinY clear 100R
+preplace inst packet_gen|length_feeder -pg 1 -lvl 2 -x 2110 -y 452 -defaultsOSRD -pinDir axis_in left -pinY axis_in 0L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L -pinDir replay_enable left -pinY replay_enable 60L -pinDir replay_idle right -pinY replay_idle 20R -pinBusDir size left -pinBusY size 80L -pinDir clear left -pinY clear 100L
+preplace netloc clk_in1_0_1 1 0 1 NJ 170
+preplace netloc ext_reset_in_0_1 1 0 1 NJ 230
+preplace netloc packet_gen_axi_0_start_generation 1 4 2 2760 440 NJ
+preplace netloc source_50mhz_clk_50mhz 1 1 5 940 310 1200 340 1520 200 2740 400 3060
+preplace netloc source_50mhz_peripheral_aresetn 1 1 5 920 290 1180 180 1480 220 2760 220 3080
+preplace netloc Conn 1 4 2 2720 380 NJ
+preplace netloc add_header_axis_out 1 5 1 3100 60n
 preplace netloc axi_uart_bridge_0_M_AXI 1 2 1 N 240
 preplace netloc axi_uartlite_0_UART 1 2 5 NJ 140 NJ 140 NJ 140 NJ 140 NJ
-preplace netloc packet_gen_axis_out 1 4 2 2310 200 N
-preplace netloc system_interconnect_M00_AXI 1 3 1 880 280n
-preplace netloc packet_gen|data_player_0_out_clear_ready 1 1 1 1510 572n
-preplace netloc packet_gen|data_player_0_out_player_state 1 1 2 1450 412 1810
-preplace netloc packet_gen|data_player_0_out_size 1 1 1 1470 532n
-preplace netloc packet_gen|packet_gen_axi_0_clear 1 1 1 1490 552n
-preplace netloc packet_gen|packet_gen_axi_0_start_generation 1 1 3 1530 652 NJ 652 NJ
-preplace netloc packet_gen|source_50mhz_clk_50mhz 1 0 3 1010 392 1410 372 NJ
-preplace netloc packet_gen|source_50mhz_peripheral_aresetn 1 0 3 1030 412 1430 392 NJ
-preplace netloc packet_gen|length_feeder_axis_out 1 2 2 1830 292 NJ
-preplace netloc packet_gen|packet_gen_axi_axis_out_length 1 1 1 N 472
-preplace netloc packet_gen|packet_gen_axis_out 1 3 1 2130 272n
-preplace netloc packet_gen|system_interconnect_M00_AXI 1 0 1 N 472
-levelinfo -pg 1 -40 140 440 720 1100 2450 2740 2870
-levelinfo -hier packet_gen * 1220 1670 1980 *
-pagesize -pg 1 -db -bbox -sgen -190 0 2960 720
-pagesize -hier packet_gen -db -bbox -sgen 980 252 2160 692
+preplace netloc packet_gen_axis_out 1 4 2 2780 200 N
+preplace netloc system_interconnect_M00_AXI 1 3 1 1500 280n
+preplace netloc source_50mhz|clk_in1_0_1 1 0 1 NJ 170
+preplace netloc source_50mhz|ext_reset_in_0_1 1 0 2 NJ 230 N
+preplace netloc source_50mhz|proc_sys_reset_0_peripheral_aresetn 1 2 1 N 170
+preplace netloc source_50mhz|system_clock_clk_100mhz 1 1 2 390 310 NJ
+preplace netloc packet_gen|data_player_0_out_size 1 1 1 N 532
+preplace netloc packet_gen|packet_gen_axi_0_clear 1 1 1 N 552
+preplace netloc packet_gen|source_50mhz_clk_50mhz 1 0 3 1630 372 1970 372 NJ
+preplace netloc packet_gen|source_50mhz_peripheral_aresetn 1 0 3 1650 392 1950 392 NJ
+preplace netloc packet_gen|length_feeder_replay_idle 1 1 2 1950 612 2270
+preplace netloc packet_gen|packet_gen_axi_generation_enable 1 1 3 1970 632 NJ 632 NJ
+preplace netloc packet_gen|length_feeder_axis_out 1 2 2 2250 292 NJ
+preplace netloc packet_gen|packet_gen_axi_axis_out_length 1 1 1 N 452
+preplace netloc packet_gen|packet_gen_axis_out 1 3 1 2570 272n
+preplace netloc packet_gen|system_interconnect_M00_AXI 1 0 1 N 452
+levelinfo -pg 1 0 270 1060 1340 1690 2920 3210 3340
+levelinfo -hier source_50mhz * 280 580 *
+levelinfo -hier packet_gen * 1800 2110 2420 *
+pagesize -pg 1 -db -bbox -sgen -150 0 3430 670
+pagesize -hier source_50mhz -db -bbox -sgen 140 110 790 320
+pagesize -hier packet_gen -db -bbox -sgen 1600 252 2600 642
 ",
-   "No Loops_ScaleFactor":"0.927919",
-   "No Loops_TopLeft":"609,-42",
+   "No Loops_ScaleFactor":"1.15548",
+   "No Loops_TopLeft":"1238,12",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x -90 -y -230 -defaultsOSRD

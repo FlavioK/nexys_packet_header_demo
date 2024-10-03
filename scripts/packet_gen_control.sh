@@ -9,11 +9,11 @@
 # Compute the addresses of the AXI registers
 #
 BASE=0x44A0000
-VERSION=$(( BASE + 0x00 ))
-START_STOP=$(( BASE + 0x04 ))
-STATUS=$(( BASE + 0x08 ))
+   VERSION=$(( BASE + 0x00 ))
+    ENABLE=$(( BASE + 0x04 ))
+      IDLE=$(( BASE + 0x08 ))
 ADD_LENGTH=$(( BASE + 0x0C ))
-CLEAR=$(( BASE + 0x10 ))
+     CLEAR=$(( BASE + 0x10 ))
 
 
 #
@@ -31,18 +31,18 @@ fi
 #
 if [ "$1" == "control" ]; then
 
-	status=$(axireg -dec $STATUS)
-	if [ "$status" == "0" ]; then
+	idle=$(axireg -dec $IDLE)
+	if [ "$idle" == "1" ]; then
 		echo "Starting the packet generation"
-		axireg $START_STOP 1
+		axireg $ENABLE 1
 		if [ "$?" != "0" ]; then
 			echo "Failed to start packet generation"
 		fi
 	else
 		echo "Stoping the packet generation"
-		axireg $START_STOP 1
+		axireg $ENABLE 0
 		echo "Waiting until generation has stopped"
-		while [ "$(axireg -dec $STATUS)" == "1" ]; do
+		while [ "$(axireg -dec $IDLE)" == "0" ]; do
 			sleep .5
 		done
 		echo "Packet generation has stopped"
@@ -54,9 +54,9 @@ fi
 #  If the user wants to get the status of the generation
 #
 if [ "$1" == "status" ]; then
-	status=$(axireg -dec $STATUS)
+	idle=$(axireg -dec $IDLE)
 	n_packets=$(axireg -dec $ADD_LENGTH)
-	if [ "$status" == "0" ]; then
+	if [ "$idle" == "1" ]; then
 		echo "Packet generation is not running. Holding $n_packets packets."
 	else
 		echo "Packet generation is running. Holding $n_packets packets."

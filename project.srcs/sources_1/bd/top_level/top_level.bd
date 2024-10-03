@@ -7,7 +7,8 @@
       "name": "top_level",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2021.1"
+      "tool_version": "2021.1",
+      "validated": "true"
     },
     "design_tree": {
       "source_50mhz": {
@@ -38,11 +39,43 @@
     "ports": {
       "CLK100MHZ": {
         "type": "clk",
-        "direction": "I"
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "top_level_CLK100MHZ",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
       },
       "CPU_RESETN": {
         "type": "rst",
-        "direction": "I"
+        "direction": "I",
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_LOW",
+            "value_src": "default"
+          }
+        }
       }
     },
     "components": {
@@ -935,7 +968,7 @@
             "type": "rst",
             "direction": "I"
           },
-          "start": {
+          "replay_enable": {
             "direction": "O"
           }
         },
@@ -1137,7 +1170,7 @@
                   }
                 }
               },
-              "feeding_running": {
+              "feeding_idle": {
                 "direction": "I"
               }
             }
@@ -1189,6 +1222,18 @@
                   "HAS_TLAST": {
                     "value": "0",
                     "value_src": "constant"
+                  },
+                  "FREQ_HZ": {
+                    "value": "50000000",
+                    "value_src": "ip_prop"
+                  },
+                  "PHASE": {
+                    "value": "0.0",
+                    "value_src": "ip_prop"
+                  },
+                  "CLK_DOMAIN": {
+                    "value": "/source_50mhz/system_clock_clk_out1",
+                    "value_src": "ip_prop"
                   }
                 },
                 "port_maps": {
@@ -1220,6 +1265,10 @@
                   "PROTOCOL": {
                     "value": "AXI4LITE",
                     "value_src": "constant"
+                  },
+                  "FREQ_HZ": {
+                    "value": "50000000",
+                    "value_src": "ip_prop"
                   },
                   "ID_WIDTH": {
                     "value": "0",
@@ -1304,6 +1353,22 @@
                   "MAX_BURST_LENGTH": {
                     "value": "1",
                     "value_src": "auto"
+                  },
+                  "PHASE": {
+                    "value": "0.0",
+                    "value_src": "ip_prop"
+                  },
+                  "CLK_DOMAIN": {
+                    "value": "/source_50mhz/system_clock_clk_out1",
+                    "value_src": "ip_prop"
+                  },
+                  "RUSER_BITS_PER_BYTE": {
+                    "value": "0",
+                    "value_src": "user_prop"
+                  },
+                  "WUSER_BITS_PER_BYTE": {
+                    "value": "0",
+                    "value_src": "user_prop"
                   }
                 },
                 "port_maps": {
@@ -1416,6 +1481,18 @@
                   "ASSOCIATED_RESET": {
                     "value": "resetn",
                     "value_src": "constant"
+                  },
+                  "FREQ_HZ": {
+                    "value": "50000000",
+                    "value_src": "ip_prop"
+                  },
+                  "PHASE": {
+                    "value": "0.0",
+                    "value_src": "ip_prop"
+                  },
+                  "CLK_DOMAIN": {
+                    "value": "/source_50mhz/system_clock_clk_out1",
+                    "value_src": "ip_prop"
                   }
                 }
               },
@@ -1429,10 +1506,10 @@
                   }
                 }
               },
-              "start_gen": {
+              "generation_enable": {
                 "direction": "O"
               },
-              "gen_status": {
+              "generation_idle": {
                 "direction": "I"
               },
               "recording_size": {
@@ -1442,9 +1519,6 @@
               },
               "clear": {
                 "direction": "O"
-              },
-              "clear_ready": {
-                "direction": "I"
               }
             }
           },
@@ -1500,6 +1574,18 @@
                   "HAS_TLAST": {
                     "value": "0",
                     "value_src": "constant"
+                  },
+                  "FREQ_HZ": {
+                    "value": "50000000",
+                    "value_src": "ip_prop"
+                  },
+                  "PHASE": {
+                    "value": "0.0",
+                    "value_src": "ip_prop"
+                  },
+                  "CLK_DOMAIN": {
+                    "value": "/source_50mhz/system_clock_clk_out1",
+                    "value_src": "ip_prop"
                   }
                 },
                 "port_maps": {
@@ -1553,8 +1639,20 @@
                     "value_src": "constant"
                   },
                   "HAS_TLAST": {
-                    "value": "1",
+                    "value": "0",
                     "value_src": "constant"
+                  },
+                  "FREQ_HZ": {
+                    "value": "50000000",
+                    "value_src": "ip_prop"
+                  },
+                  "PHASE": {
+                    "value": "0.0",
+                    "value_src": "ip_prop"
+                  },
+                  "CLK_DOMAIN": {
+                    "value": "/source_50mhz/system_clock_clk_out1",
+                    "value_src": "ip_prop"
                   }
                 },
                 "port_maps": {
@@ -1563,10 +1661,6 @@
                     "direction": "O",
                     "left": "15",
                     "right": "0"
-                  },
-                  "TLAST": {
-                    "physical_name": "axis_out_tlast",
-                    "direction": "O"
                   },
                   "TVALID": {
                     "physical_name": "axis_out_tvalid",
@@ -1591,6 +1685,18 @@
                   "ASSOCIATED_RESET": {
                     "value": "resetn",
                     "value_src": "constant"
+                  },
+                  "FREQ_HZ": {
+                    "value": "50000000",
+                    "value_src": "ip_prop"
+                  },
+                  "PHASE": {
+                    "value": "0.0",
+                    "value_src": "ip_prop"
+                  },
+                  "CLK_DOMAIN": {
+                    "value": "/source_50mhz/system_clock_clk_out1",
+                    "value_src": "ip_prop"
                   }
                 }
               },
@@ -1604,10 +1710,10 @@
                   }
                 }
               },
-              "start": {
+              "replay_enable": {
                 "direction": "I"
               },
-              "player_state": {
+              "replay_idle": {
                 "direction": "O"
               },
               "size": {
@@ -1617,9 +1723,6 @@
               },
               "clear": {
                 "direction": "I"
-              },
-              "clear_ready": {
-                "direction": "O"
               }
             }
           }
@@ -1652,23 +1755,17 @@
           }
         },
         "nets": {
-          "data_player_0_out_clear_ready": {
-            "ports": [
-              "length_feeder/clear_ready",
-              "packet_gen_axi/clear_ready"
-            ]
-          },
-          "data_player_0_out_player_state": {
-            "ports": [
-              "length_feeder/player_state",
-              "generator/feeding_running",
-              "packet_gen_axi/gen_status"
-            ]
-          },
           "data_player_0_out_size": {
             "ports": [
               "length_feeder/size",
               "packet_gen_axi/recording_size"
+            ]
+          },
+          "length_feeder_replay_idle": {
+            "ports": [
+              "length_feeder/replay_idle",
+              "packet_gen_axi/generation_idle",
+              "generator/feeding_idle"
             ]
           },
           "packet_gen_axi_0_clear": {
@@ -1677,11 +1774,11 @@
               "length_feeder/clear"
             ]
           },
-          "packet_gen_axi_0_start_generation": {
+          "packet_gen_axi_generation_enable": {
             "ports": [
-              "packet_gen_axi/start_gen",
-              "start",
-              "length_feeder/start"
+              "packet_gen_axi/generation_enable",
+              "replay_enable",
+              "length_feeder/replay_enable"
             ]
           },
           "source_50mhz_clk_50mhz": {
@@ -1968,7 +2065,7 @@
       },
       "packet_gen_axi_0_start_generation": {
         "ports": [
-          "packet_gen/start",
+          "packet_gen/replay_enable",
           "system_ila/probe0"
         ]
       },

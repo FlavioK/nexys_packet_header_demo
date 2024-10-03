@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xA11D332ABC3DEE3",
+      "boundary_crc": "0xA11D3327F15EB01",
       "design_src": "SBD",
       "device": "xc7a100tcsg324-1",
       "name": "bd_9bbd",
@@ -34,7 +34,7 @@
             "value_src": "default"
           },
           "HAS_TLAST": {
-            "value": "1",
+            "value": "0",
             "value_src": "default"
           },
           "HAS_TREADY": {

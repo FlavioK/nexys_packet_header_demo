@@ -26,25 +26,22 @@ module packet_gen_axi #(
     input clk,
     input resetn,
 
-    // If set to true, the packet_generation gets started
-    output reg          start_gen, // ==> Rename!!! 
+    // If set to 1, the packet_generation gets started
+    output reg          generation_enable,
 
-    // If set to false, the packet_generation is in idle mode
-    input               gen_status, // rename to packet_gen busy
+    // If set to 1, the packet_generation is in idle mode
+    input               generation_idle,
 
     // New length
     output reg [LENGTH_WIDTH-1:0] axis_out_length_tdata,
-    output reg          axis_out_length_tvalid,
-    input               axis_out_length_tready,
+    output reg                    axis_out_length_tvalid,
+    input                         axis_out_length_tready,
 
     // Number of stored package lengths.
     input [31:0]      recording_size,
 
     // Clear signal. If 1 the stored lengths can be cleared.
     output reg        clear,
-
-    // If True, the clear operation is available.
-    input             clear_ready,
 
     //================== This is an AXI4-Lite slave interface ==================
 
@@ -80,12 +77,13 @@ module packet_gen_axi #(
 
 
 );
-  localparam MODULE_VERSION = 32'h00000001;// no width needed.
+
+  localparam MODULE_VERSION = 1;
 
   //=========================  AXI Register Map  =============================
   localparam REG_VERSION = 0;           //  0: Get module version
-  localparam REG_START_STOP = 1;        //  4: Start/Stop the generation
-  localparam REG_STATUS = 2;            //  8: Get generation status
+  localparam REG_ENABLE = 1;            //  4: Enable the packet generation
+  localparam REG_IDLE = 2;              //  8: Get generation status
   localparam REG_ADD_PACKET = 3;        //  C: Add length or request number or lengths
   localparam REG_CLEAR_PACKETS = 4;     // 10: Clear all lengths
   //==========================================================================
@@ -105,7 +103,7 @@ module packet_gen_axi #(
   // AXI Slave Handler Interface for read requests
   wire [31:0] ashi_rindx;  // Input   Read register-index
   wire [31:0] ashi_raddr;  // Input:  Read-address
-  wire        ashi_read;  // Input:  1 = Handle a read request
+  wire        ashi_read;   // Input:  1 = Handle a read request
   reg  [31:0] ashi_rdata;  // Output: Read data
   reg  [ 1:0] ashi_rresp;  // Output: Read-response (OKAY, DECERR, SLVERR);
   wire        ashi_ridle;  // Output: 1 = Read state machine is idle
@@ -138,58 +136,68 @@ module packet_gen_axi #(
   always @(posedge clk) begin
 
     // Apply value only 1 for one clock cycle.
-    start_gen    <= 0;  // ===> Could be a static signal. Would make more sense.
-    clear        <= 0;
+    clear                  <= 0;
     axis_out_length_tvalid <= 0;
 
     // If we're in reset, initialize important registers
     if (resetn == 0) begin
-      ashi_write_state <= 0;
+        ashi_write_state  <= 0;
+        generation_enable <= 0;
 
       // If we're not in reset, and a write-request has occured...        
     end else
-      case (ashi_write_state)
+    case (ashi_write_state)
 
         0: if (ashi_write) begin
 
-          // Assume for the moment that the result will be OKAY
-          ashi_wresp <= OKAY;
+            // Assume for the moment that the result will be OKAY
+            ashi_wresp <= OKAY;
 
-          // Examine the register index to determine which register we're writing to
-          case (ashi_windx)
+            // Examine the register index to determine which register we're
+            // writing to
+            case (ashi_windx)
 
-            REG_START_STOP:
-              // If we have no recorded lengths, and we want to start the generator, we thorw an error.
-              if ( (recording_size == 0 ) && (gen_status == 0))begin
-                ashi_wresp <= SLVERR;
-              end else begin
-                start_gen <= 1;
-              end
+                REG_ENABLE:
+                    // We want to disable the packet generation. -> Just do it.
+                    if ( ashi_wdata == 0 ) begin
+                        generation_enable <= 0;
+                    end
 
-            REG_ADD_PACKET: begin
-              // Provided packet length must be > 0 and the consumer must be ready to accept it.
-              if ((ashi_wdata > 0) && (axis_out_length_tready)) begin
-                axis_out_length_tdata <= ashi_wdata;
-                axis_out_length_tvalid  <= 1;
-              end else ashi_wresp <= SLVERR;
-            end
+                    // We want to start the generator, and we have some recorded
+                    // lengths. --> Just do it.
+                    else if ( recording_size > 0 )begin
+                        generation_enable <= 1;
 
-            // Package gen must be idle
-            REG_CLEAR_PACKETS: begin
-              if (clear_ready) begin // redundant information which is confusing.
-                clear <= 1;
-              end else ashi_wresp <= SLVERR;
-            end
+                    // Otherwise we throw an error.
+                    end else begin
+                        ashi_wresp <= SLVERR;
+                    end
 
-            // Writes to any other register are a decode-error
-            default: ashi_wresp <= DECERR;
-          endcase
+                REG_ADD_PACKET: begin
+                    // Provided packet length must be > 0 and the consumer must
+                    // be ready to accept it.
+                    if ((ashi_wdata > 0) && (axis_out_length_tready)) begin
+                        axis_out_length_tdata <= ashi_wdata;
+                        axis_out_length_tvalid  <= 1;
+                    end else ashi_wresp <= SLVERR;
+                end
+
+                // Package gen must be idle
+                REG_CLEAR_PACKETS: begin
+                    if (generation_idle) begin
+                        clear <= 1;
+                    end else ashi_wresp <= SLVERR;
+                end
+
+                // Writes to any other register are a decode-error
+                default: ashi_wresp <= DECERR;
+            endcase
         end
 
         // We should never get here.
         1: ashi_write_state <= 0;
 
-      endcase
+    endcase
   end
   //==========================================================================
 
@@ -201,25 +209,25 @@ module packet_gen_axi #(
   always @(posedge clk) begin
     // If we're in reset, initialize important registers
     if (resetn == 0) begin
-      ashi_read_state <= 0;
+        ashi_read_state <= 0;
 
       // If we're not in reset, and a read-request has occured...        
     end else if (ashi_read) begin
 
-      // Assume for the moment that the result will be OKAY
-      ashi_rresp <= OKAY;
+        // Assume for the moment that the result will be OKAY
+        ashi_rresp <= OKAY;
 
-      // Determine which register the user wants to read
-      case (ashi_rindx)
+        // Determine which register the user wants to read
+        case (ashi_rindx)
 
-        // Allow a read from any valid register                
-        REG_VERSION:    ashi_rdata <= MODULE_VERSION;
-        REG_STATUS:     ashi_rdata <= {31'h0, gen_status};
-        REG_ADD_PACKET: ashi_rdata <= recording_size;
+            // Allow a read from any valid register                
+            REG_VERSION:    ashi_rdata <= MODULE_VERSION;
+            REG_IDLE:       ashi_rdata <= {31'h0, generation_idle};
+            REG_ADD_PACKET: ashi_rdata <= recording_size;
 
-        // Reads of any other register are a decode-error
-        default: ashi_rresp <= DECERR;
-      endcase
+            // Reads of any other register are a decode-error
+            default: ashi_rresp <= DECERR;
+        endcase
     end
   end
   //==========================================================================

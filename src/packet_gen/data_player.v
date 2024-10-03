@@ -96,22 +96,11 @@ reg           fifo_data_out_tready;
 // Reset the fifo if either resetn is 0 or the fifo_reset_counter is != 0
 assign fifo_resetn = (resetn && (fifo_reset_counter == 0));
 
-//=============================================================================
-// These signals connect the FIFOs tready, and clear signals with the current
-// state we are in.
-//=============================================================================
-
-// Reset the fifo in case we get a reset signal or if we get the clear signal
-// and the replay is in idle.
-// clear the fifo only if we receive the clear signal and are in recording state.
-assign fifo_clearn = !(clear && replay_idle); // ===> reset should be at least 16 cycles for xilinx IPs.
-
 // Indicates that we still have space available.
 // Reason for this check is that the FIFO seems to be able to hold 2 elements
 // more than CAPACITY elements. If we even fill these two elements up, the
 // replay mechanism fails due to not enough space while back feeding.
 assign space_available = (size < CAPACITY);
-//=============================================================================
 
 //=============================================================================
 // This state machine is used control the current data_player state.

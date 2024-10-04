@@ -16,12 +16,14 @@ module packet_gen # (parameter DW=128, MAX_LENGTH_WIDTH = 16)
 (
     input   clk, resetn,
 
-    // Signal to clear the counter used to fill the packets.
-    input feeding_idle,
+    // Signal that the packet generation is idle so we can clear 
+    // the counter used to fill the packets.
+    input generation_idle,
 
     // Package length to outpu
     input [MAX_LENGTH_WIDTH-1:0] axis_in_length_tdata,
     input                        axis_in_length_tvalid,
+    
     // This is here to satisfy the ILA
     input                        axis_in_length_tlast,
     output                       axis_in_length_tready,
@@ -106,37 +108,46 @@ always @(posedge clk) begin
 
     else case(fsm_state)
 
+        // In this state we are idle and wait until the next length is available at our input.
+        // If we see that the generation_idle signal got deasserted, we reset our data counter
+        // so we start from start again.
         STATE_IDLE: 
-        if (axis_in_length_tvalid) begin
-            packet_length <= axis_in_length_tdata;
-            cycle         <= 1;
-            fsm_state     <= STATE_RUNNING;
-        end
-        else if (feeding_idle) begin
-            // If we and the feeding are in idle state, we can start counting
-            // from 1 again.
-            data <=1;
-        end
+        
+            // If we got a new length again, we start generating a packet for it.
+            if (axis_in_length_tvalid && axis_in_length_tready) begin
+                packet_length <= axis_in_length_tdata;
+                cycle         <= 1;
+                fsm_state     <= STATE_RUNNING;
+            end
+            
+            // If we see that the generation got idle, we reset the data counter.
+            else if (generation_idle) begin
+                data <=1;
+            end
+
 
         // Continue sending out the data as long as the receiver is ready.
         STATE_RUNNING:
-        if (axis_out_tready) begin
-            data  <= data + 1;
-            cycle <= cycle + 1;
-
-            // If the last cycle is due and the next length is valid, just get the next
-            // length and continue in this state.
-            if (axis_out_tlast && axis_in_length_tvalid) begin
-                cycle         <= 1;
-                packet_length <= axis_in_length_tdata;
-
-            // If the last cycle is due and the new length is not yet valid, wait for the length provider.
-            // -> This can happen if the data_player has not too many lengths in
-            // his FIFO and the FIFO latency starts throttling us..
-            end else if (axis_out_tlast && !axis_in_length_tvalid) begin
-                fsm_state <= STATE_IDLE;
+        
+            // The receiver consumed the current cycle, increment the cycle and data
+            //  counters to send the next part of the packet.
+            if (axis_out_tready && axis_out_tvalid) begin
+                data  <= data + 1;
+                cycle <= cycle + 1;
+    
+                // If the last cycle is due and the next length is valid, just get the next
+                // length and continue in this state.
+                if (axis_out_tlast && axis_in_length_tvalid && axis_in_length_tready) begin
+                    cycle         <= 1;
+                    packet_length <= axis_in_length_tdata;
+    
+                // If the last cycle is due and the new length is not yet valid, wait until its available.
+                // -> This can happen if the data_player has not too many lengths in his FIFO and the FIFO
+                // latency starts throttling us or if the packet_generation stopped.
+                end else if (axis_out_tlast && !axis_in_length_tvalid) begin
+                    fsm_state <= STATE_IDLE;
+                end
             end
-        end
 
       endcase
 

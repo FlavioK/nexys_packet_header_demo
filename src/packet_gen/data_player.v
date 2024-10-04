@@ -41,7 +41,7 @@ module data_player # (parameter DW=16, CAPACITY=1024)
     input                           axis_in_tvalid,
 
     // Signal that we can accept new data. 1 means we can accept a new element.
-    // Only 1 if we still hvae anough space and if replay_idle is 1.
+    // Only 1 if we still have anough space and if replay_idle is 1.
     output reg                      axis_in_tready,
 
     // Retuns the number of data elements held by the FIFO.
@@ -156,6 +156,7 @@ always @(posedge clk) begin
                 size <= size + 1;
             end
 
+
         STATE_REPLAY:
             // Go to the next play back position in case we got the confirmation
             // from the consumer.
@@ -218,6 +219,7 @@ always @* begin
             // is ready to accept data, and we still have space available.
             axis_in_tready      = fifo_resetn && fifo_data_in_tready && space_available;
         end
+
 
     // In this state, axis_out is fed from the FIFO
     STATE_REPLAY:

@@ -157,6 +157,7 @@ module packet_gen_axi #(
             // writing to
             case (ashi_windx)
 
+
                 REG_ENABLE:
                     // We want to disable the packet generation. -> Just do it.
                     if ( ashi_wdata == 0 ) begin
@@ -173,6 +174,7 @@ module packet_gen_axi #(
                         ashi_wresp <= SLVERR;
                     end
 
+
                 REG_ADD_PACKET: begin
                     // Provided packet length must be > 0 and the consumer must
                     // be ready to accept it.
@@ -181,6 +183,7 @@ module packet_gen_axi #(
                         axis_out_length_tvalid  <= 1;
                     end else ashi_wresp <= SLVERR;
                 end
+
 
                 // Package gen must be idle
                 REG_CLEAR_PACKETS: begin

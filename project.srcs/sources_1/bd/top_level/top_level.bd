@@ -292,7 +292,7 @@
             "value": "3"
           },
           "C_SLOT": {
-            "value": "0"
+            "value": "2"
           },
           "C_SLOT_0_INTF_TYPE": {
             "value": "xilinx.com:interface:axis_rtl:1.0"
@@ -301,6 +301,9 @@
             "value": "xilinx.com:interface:axis_rtl:1.0"
           },
           "C_SLOT_2_INTF_TYPE": {
+            "value": "xilinx.com:interface:axis_rtl:1.0"
+          },
+          "C_SLOT_3_INTF_TYPE": {
             "value": "xilinx.com:interface:axis_rtl:1.0"
           }
         },
@@ -1170,7 +1173,7 @@
                   }
                 }
               },
-              "feeding_idle": {
+              "generation_idle": {
                 "direction": "I"
               }
             }
@@ -1737,8 +1740,8 @@
           },
           "packet_gen_axi_axis_out_length": {
             "interface_ports": [
-              "packet_gen_axi/axis_out_length",
-              "length_feeder/axis_in"
+              "length_feeder/axis_in",
+              "packet_gen_axi/axis_out_length"
             ]
           },
           "packet_gen_axis_out": {
@@ -1764,8 +1767,8 @@
           "length_feeder_replay_idle": {
             "ports": [
               "length_feeder/replay_idle",
-              "packet_gen_axi/generation_idle",
-              "generator/feeding_idle"
+              "generator/generation_idle",
+              "packet_gen_axi/generation_idle"
             ]
           },
           "packet_gen_axi_0_clear": {
@@ -1806,7 +1809,7 @@
         "inst_hier_path": "add_header",
         "parameters": {
           "FIFO_DEPTH": {
-            "value": "2048"
+            "value": "8192"
           }
         },
         "reference_info": {

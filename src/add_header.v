@@ -18,8 +18,10 @@
 
 */
 
-
-module add_header # (parameter DW = 128, FIFO_DEPTH = 2048)
+// FIFO_DEPTH should be 8192 elements. This way we have some guarantee that 
+// we can hold packets with a length of 65535 bytes.
+// The max length of 65535 bytes comes from the length width defined in data_player.
+module add_header # (parameter DW = 128, FIFO_DEPTH = 8192)
 (
     input   clk, resetn,
 
